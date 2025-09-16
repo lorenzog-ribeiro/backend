@@ -4,12 +4,11 @@ import { AppService } from './app.service';
 import { FormsModule } from './forms/forms.module';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
+import { UsersService } from './users/users.service';
 
 @Module({
-  imports: [FormsModule,
-    UsersModule,],
-  controllers: [
-    UsersController, AppController],
-  providers: [AppService],
+  imports: [FormsModule, UsersModule],
+  controllers: [UsersController, AppController],
+  providers: [AppService, UsersService],
 })
-export class AppModule { }
+export class AppModule {}
