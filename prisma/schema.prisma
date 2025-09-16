@@ -1,0 +1,120 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  birthDate DateTime
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relacionamentos
+  sessions      Session[]
+  resultHistory ResultHistory[]
+
+  @@map("users")
+}
+
+model Session {
+  id          String        @id @default(cuid())
+  userId      String        @map("user_id")
+  status      SessionStatus @default(IN_PROGRESS)
+  currentStep String?       @map("current_step") // 'questions', 'tradeoffs', 'completed'
+
+  // Dados temporários (enquanto não finaliza)
+  tempAnswers   Json? @map("temp_answers") // Respostas temporárias
+  tempTradeoffs Json? @map("temp_tradeoffs") // Trade-offs temporários
+
+  startedAt   DateTime  @default(now()) @map("started_at")
+  completedAt DateTime? @map("completed_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  // Relacionamentos
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Category {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  order     Int        @unique
+  questions Question[]
+
+  @@map("categories")
+}
+
+model Question {
+  id         String       @id @default(cuid())
+  categoryId String       @map("category_id")
+  text       String
+  type       QuestionType
+  order      Int          @unique
+  options    Json? // [{"text": "Opção 1", "value": "1", "weight": 10}]
+  isRequired Boolean      @default(true) @map("is_required")
+
+  // Relacionamentos
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@map("questions")
+}
+
+model TradeOffScenario {
+  id          String  @id @default(cuid())
+  title       String // "Cenário 1", "Cenário 2", etc.
+  description String? // Descrição do cenário
+  step        Int     @unique // 1, 2, 3
+  config      Json // Configurações específicas do cenário
+  isActive    Boolean @default(true) @map("is_active")
+
+  @@map("tradeoff_scenarios")
+}
+
+// ===== RESULTADOS FINALIZADOS =====
+
+model ResultHistory {
+  id        String @id @default(cuid())
+  userId    String @map("user_id")
+  sessionId String @map("session_id") // Referência à sessão que gerou
+  attempt   Int // Número da tentativa (auto-incrementa por usuário)
+
+  profileName String @map("profile_name")
+  score       Int
+  calculation Json? // Detalhes do cálculo
+
+  questionsData Json @map("questions_data") // Todas as respostas
+  tradeoffsData Json @map("tradeoffs_data") // Todos os trade-offs
+
+  completedAt DateTime @map("completed_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, attempt])
+  @@map("result_history")
+}
+
+enum SessionStatus {
+  IN_PROGRESS // Usuário ainda respondendo
+  COMPLETED // Finalizado com sucesso
+  ABANDONED // Usuário saiu sem finalizar (após timeout)
+
+  @@map("session_status")
+}
+
+enum QuestionType {
+  RADIO
+  TEXT
+  DATE
+  EMAIL
+  BOOLEAN
+}
