@@ -5,10 +5,11 @@ import { FormsModule } from './forms/forms.module';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
 import { UsersService } from './users/users.service';
+import { PrismaService } from './prisma/prisma.service';
 
 @Module({
   imports: [FormsModule, UsersModule],
   controllers: [UsersController, AppController],
-  providers: [AppService, UsersService],
+  providers: [AppService, UsersService, PrismaService],
 })
 export class AppModule {}
