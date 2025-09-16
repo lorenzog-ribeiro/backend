@@ -11,7 +11,7 @@ import { CreateFormsDto } from './forms.dto';
 import { UpdateFormsDto } from './forms.dto';
 import { FormsService } from './forms.service';
 
-@Controller('formss')
+@Controller('forms')
 export class FormsController {
   constructor(private readonly formsService: FormsService) {}
 
