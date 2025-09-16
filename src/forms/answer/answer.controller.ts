@@ -7,8 +7,8 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { CreateAnswerDto } from './dto/create-answer.dto';
-import { UpdateAnswerDto } from './dto/update-answer.dto';
+import { CreateFormsDto } from './../forms.dto';
+import { UpdateFormsDto } from './../forms.dto';
 import { AnswerService } from './answer.service';
 
 @Controller('answers')
@@ -16,7 +16,7 @@ export class AnswerController {
   constructor(private readonly answerService: AnswerService) {}
 
   @Post()
-  create(@Body() createAnswerDto: CreateAnswerDto) {
+  create(@Body() createAnswerDto: CreateFormsDto) {
     return this.answerService.create(createAnswerDto);
   }
 
@@ -31,7 +31,7 @@ export class AnswerController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAnswerDto: UpdateAnswerDto) {
+  update(@Param('id') id: string, @Body() updateAnswerDto: UpdateFormsDto) {
     return this.answerService.update(+id, updateAnswerDto);
   }
 

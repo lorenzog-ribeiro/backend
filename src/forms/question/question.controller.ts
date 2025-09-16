@@ -7,8 +7,8 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { CreateQuestionDto } from './dto/create-question.dto';
-import { UpdateQuestionDto } from './dto/update-question.dto';
+import { CreateFormsDto } from './../forms.dto';
+import { UpdateFormsDto } from './../forms.dto';
 import { QuestionService } from './question.service';
 
 @Controller('questions')
@@ -16,7 +16,7 @@ export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
   @Post()
-  create(@Body() createQuestionDto: CreateQuestionDto) {
+  create(@Body() createQuestionDto: CreateFormsDto) {
     return this.questionService.create(createQuestionDto);
   }
 
@@ -31,7 +31,7 @@ export class QuestionController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuestionDto: UpdateQuestionDto) {
+  update(@Param('id') id: string, @Body() updateQuestionDto: UpdateFormsDto) {
     return this.questionService.update(+id, updateQuestionDto);
   }
 

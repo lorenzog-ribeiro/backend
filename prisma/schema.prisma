@@ -23,20 +23,18 @@ model User {
 }
 
 model Question {
-  id       String       @id @default(cuid())
+  id       String @id @default(cuid())
   category String // Categoria da pergunta
   text     String
-  type     QuestionType
-  order    Int          @unique
+  order    Int    @unique
   options  Json? // Para perguntas de múltipla escolha
 
   @@map("questions")
 }
 
 model Result {
-  id     String       @id @default(cuid())
-  userId String       @map("user_id")
-  status ResultStatus
+  id     String @id @default(cuid())
+  userId String @map("user_id")
 
   answers Json?
 
@@ -54,18 +52,4 @@ model Result {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("results")
-}
-
-enum ResultStatus {
-  COMPLETED // Questionário finalizado
-  ABANDONED // Usuário saiu sem completar
-}
-
-enum QuestionType {
-  RADIO
-  TEXT
-  DATE
-  EMAIL
-  BOOLEAN
-  MULTISELECT
 }

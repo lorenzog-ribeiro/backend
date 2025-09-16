@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAnswerDto } from './dto/create-answer.dto';
-import { UpdateAnswerDto } from './dto/update-answer.dto';
+import { CreateFormsDto } from './../forms.dto';
+import { UpdateFormsDto } from './../forms.dto';
 
 @Injectable()
 export class AnswerService {
-  create(createAnswerDto: CreateAnswerDto) {
+  create(createAnswerDto: CreateFormsDto) {
     return 'This action adds a new answer';
   }
 
@@ -16,7 +16,7 @@ export class AnswerService {
     return `This action returns a #id answer`;
   }
 
-  update(id: number, updateAnswerDto: UpdateAnswerDto) {
+  update(id: number, updateAnswerDto: UpdateFormsDto) {
     return `This action updates a #id answer`;
   }
 

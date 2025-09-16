@@ -7,8 +7,8 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { CreateFormsDto } from './dto/create-forms.dto';
-import { UpdateFormsDto } from './dto/update-forms.dto';
+import { CreateFormsDto } from './forms.dto';
+import { UpdateFormsDto } from './forms.dto';
 import { FormsService } from './forms.service';
 
 @Controller('formss')
