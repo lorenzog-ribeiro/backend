@@ -10,7 +10,7 @@ import { AnswerController } from './forms/answer/answer.controller';
 import { AnswerModule } from './forms/answer/answer.module';
 
 @Module({
-  imports: [UsersModule, AnswerModule],
+  imports: [UsersModule],
   controllers: [UsersController, AppController, AnswerController],
   providers: [AppService, UsersService, PrismaService, AnswerService],
 })
