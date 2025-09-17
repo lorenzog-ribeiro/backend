@@ -6,12 +6,12 @@ import { AnswerDto } from './create-answer.dto';
 export class AnswerController {
   constructor(private readonly answerService: AnswerService) {}
 
-  @Post()
-  create(@Body() createAnswerDto: AnswerDto) {
-    return this.answerService.create(createAnswerDto);
+  @Post('create')
+  create(@Body() createAnswerDto: AnswerDto, @Body('userId') userId: string) {
+    return this.answerService.create(userId ,createAnswerDto);
   }
 
-  @Get()
+  @Get('all')
   findAllUserAnswers() {
     return this.answerService.findAllUserAnswers();
   }

@@ -1,4 +1,4 @@
-import { IsArray, IsNumber, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsJSON, IsNumber, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
 class FormAnswerDto {
@@ -42,6 +42,7 @@ class AnswersDto {
 }
 
 export class AnswerDto {
+  @IsJSON()
   @ValidateNested()
   @Type(() => AnswersDto)
   answers: AnswersDto;
