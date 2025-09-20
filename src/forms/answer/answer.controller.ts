@@ -8,11 +8,16 @@ export class AnswerController {
 
   @Post('create')
   create(@Body() createAnswerDto: AnswerDto, @Body('userId') userId: string) {
-    return this.answerService.create(userId ,createAnswerDto);
+    return this.answerService.create(userId, createAnswerDto);
   }
 
   @Get('all')
   findAllUserAnswers() {
     return this.answerService.findAllUserAnswers();
+  }
+
+  @Post('tradeOff')
+  TradeOff(@Body() data) {
+    return this.answerService.tradeOff(data);
   }
 }
