@@ -23,7 +23,7 @@ describe('UsersController', () => {
       providers: [
         UsersService,
         {
-          provide: IUserRepository, // Correctly use the interface as the provider token
+          provide: 'IUserRepository',
           useValue: mockUserRepository,
         },
       ],
