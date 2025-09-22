@@ -32,24 +32,25 @@ export class AnswerService {
 
   async tradeOff(data) {
     try {
-      let fixedValue = 0;
+      let Safe = 0;
       let Risk = 0;
 
       switch (data.scenario) {
         case 1:
-          fixedValue = 1000;
+          Safe = 1000;
           Risk = 0;
           break;
         case 2:
-          fixedValue = 0;
+          Safe = 0;
           Risk = -1000;
           break;
         case 3:
-          ((fixedValue = 0), (Risk = data.valueFixed ?? 0));
+          Safe = 0;
+          Risk = data.valueFixed ?? 0;
           break;
       }
 
-      let valueBase = this.base(fixedValue, Risk, data.scenario) ?? 0;
+      let valueBase = this.base(Safe, Risk, data.scenario) ?? 0;
 
       let dataForCalc = {
         sideSelected: data.side,
