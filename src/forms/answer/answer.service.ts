@@ -45,10 +45,7 @@ export class AnswerService {
           Risk = -1000;
           break;
         case 3:
-          ((fixedValue = 0),
-            (Risk = await this.getLastValueSecondScenario(
-              '68c9f653031e0264f49e7a47',
-            )));
+          ((fixedValue = 0), (Risk = data.valueFixed ?? 0));
           break;
       }
 
