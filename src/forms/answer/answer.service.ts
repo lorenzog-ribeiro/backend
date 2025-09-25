@@ -38,19 +38,16 @@ export class AnswerService {
       switch (data.scenario) {
         case 1:
           Safe = 1000;
-          Risk = 0;
           break;
         case 2:
-          Safe = 0;
           Risk = -1000;
           break;
         case 3:
-          Safe = 0;
-          Risk = data.valueFixed ?? 0;
+          Risk = data.valueFixed;
           break;
       }
 
-      let valueBase = this.base(Safe, Risk, data.scenario) ?? 0;
+      let valueBase = this.base(Safe, Risk, data.scenario);
 
       let dataForCalc = {
         sideSelected: data.side,
@@ -106,35 +103,5 @@ export class AnswerService {
           : data.valueSelected + data.valueBase / 2 ** data.question;
         break;
     }
-  }
-
-  async getLastValueSecondScenario(userID: string) {
-    const result = await this.prisma.result.findFirst({
-      where: {
-        userId: userID,
-        answers: {
-          path: ['tradOff'],
-          array_contains: [{ scenario: '2' }],
-        },
-      },
-      orderBy: { createdAt: 'desc' }, // garante o mais recente no banco
-    });
-
-    if (!result) return null;
-
-    let answersObj: any = result.answers;
-    if (typeof answersObj === 'string') {
-      try {
-        answersObj = JSON.parse(answersObj);
-      } catch (e) {
-        answersObj = {};
-      }
-    }
-    const tradOff = answersObj?.tradOff ?? [];
-
-    // filtra só os cenários 2
-    const scenario2 = tradOff.filter((item: any) => item.scenario === '2');
-    // retorna o último
-    return scenario2.length > 0 ? scenario2[scenario2.length - 1].median : null;
   }
 }
